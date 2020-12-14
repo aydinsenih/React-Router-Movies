@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 export default function Movie(props) {
   const [movie, setMovie] = useState();
   const {movieID} = useParams();
-  let id = 1;
+  const {addToSavedList} = props;
   // Change ^^^ that line and use a hook to obtain the :id parameter from the URL
 
   useEffect(() => {
@@ -21,15 +21,16 @@ export default function Movie(props) {
       });
     // This effect should run every time time
     // the `id` changes... How could we do this?
-  }, [id]);
+  }, [movieID]);
 
   // Uncomment this only when you have moved on to the stretch goals
-  // const saveMovie = evt => { }
+  const saveMovie = evt => { 
+    addToSavedList(movie)
+  }
 
   if (!movie) {
     return <div>Loading movie information...</div>;
   }
-
   const { title, director, metascore, stars } = movie;
 
   return (
@@ -50,7 +51,7 @@ export default function Movie(props) {
           </div>
         ))}
       </div>
-      <div className="save-button">Save</div>
+      <div className="save-button" onClick={saveMovie}>Save</div>
     </div>
   );
 }
